@@ -1,10 +1,9 @@
 
 git init
-git add README.md
-git commit -m "first commit"
+git add .
+git commit -m "first commit project"
 git branch -M main
 git remote add origin https://github.com/nsa14/Users-List-roocket2.git
 git push -u origin main
-
 
 ------------------------------------
