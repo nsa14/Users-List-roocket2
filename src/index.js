@@ -1,19 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-// import './index.css';
+
 // import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-import { ToastContainer, toast } from 'react-toastify';
+import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './index-custom.css';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 import UserListComponent from './UserList.jsx';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <UserListComponent />
-  </React.StrictMode>
+    <>
+        <div className={'row'}>
+            <div className="col-md-12 pt-4">
+                <UserListComponent/>
+            </div>
+        </div>
+    </>
 );
 
 // If you want to start measuring performance in your app, pass a function
