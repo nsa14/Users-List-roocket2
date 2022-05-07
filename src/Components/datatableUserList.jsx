@@ -2,11 +2,12 @@ import React, {useState} from "react";
 import {Button, Modal, Table} from 'react-bootstrap';
 import {ToastContainer, toast} from 'react-toastify';
 import NewUserForm from './newUserComponent';
+import TableUserList from './userDataTableComponent';
 
 
-const UserListDataTable = () => {
+const UserListDataTable = (props) => {
 
-    let [UserListDataState, setUserListDataState] = useState([
+    const [UserListDataState, setUserListDataState] = useState([
         {
             id: 1,
             name: 'naser',
@@ -28,7 +29,7 @@ const UserListDataTable = () => {
             IsStatus: false,
             created_at: '1401/02/06',
             updated_at: '1401/02/06'
-        },
+        }
     ]);
 
     // let dataTableUsers = () => {
@@ -76,7 +77,7 @@ const UserListDataTable = () => {
     //         </tbody>
     //     </Table>);
     // }
-    let dataTableUsers = (UserListDataState)=> {
+    let dataTableUsers = ()=> {
         return (
             UserListDataState.map(userdata => (
                 <tr key={userdata.id}>
@@ -123,11 +124,10 @@ const UserListDataTable = () => {
     }
 
     const setStateOfParent = (newFormData) => {
-        console.log('old data: ' + JSON.stringify(UserListDataState));
-        console.log('add new data: ' + JSON.stringify(newFormData));
+        console.log((UserListDataState));
+        console.log((newFormData));
         UserListDataState.push(newFormData);
         setUserListDataState({...UserListDataState});
-        dataTableUsers(UserListDataState);
         // setUserListDataState(prevState =>{
         //     return{
         //         ...prevState,
@@ -144,25 +144,7 @@ const UserListDataTable = () => {
             </div>
 
             {/*{ dataTableUsers(UserListDataState) }*/}
-            <Table style={{direction: 'rtl', lineHeight: '60px'}} striped bordered hover>
-                <thead>
-                <tr className={'text-center'}>
-                    <th>ردیف</th>
-                    <th>نام</th>
-                    <th>نام خانوادگی</th>
-                    <th>رمز عبور</th>
-                    <th>ایمیل</th>
-                    <th>مدیر</th>
-                    <th>وضعیت</th>
-                    <th>تاریخ ثبت</th>
-                    <th>تاریخ ویرایش</th>
-                    <th>عملیات</th>
-                </tr>
-                </thead>
-                <tbody>
-                {dataTableUsers(UserListDataState)}
-                </tbody>
-            </Table>
+            <TableUserList data={UserListDataState}/>
 
             <ToastContainer rtl/>
         </>
