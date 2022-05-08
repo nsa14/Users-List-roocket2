@@ -10,7 +10,20 @@ const DataTable = (props) => {
 
     // delete User from state userListDataState
     const deleteUser = (id) => {
-
+        const removeUserItem = userData.filter(function (ele) {
+            return ele.id !== parseInt(id);
+        })
+        setUserData(removeUserItem)
+        toast.success('شماره کاربری ' + id + ' به درستی حذف شد.', {
+            position: "bottom-right",
+            autoClose: 3000,
+            rtl: true,
+            theme: "colored",
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+        });
     }
 
     //add item form(child component) to this state
