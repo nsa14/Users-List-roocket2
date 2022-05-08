@@ -6,6 +6,11 @@ import SimpleReactValidator from 'simple-react-validator';
 
 const ShowAddUserForm = (props) => {
 
+    const [userData,setUserData] = useState(props.data);
+    const lastUserDataId = userData.length>0? Math.max.apply(Math, userData.map(function(o) { return o.id; })): 1;
+    // const lastUserDataId = Math.max.apply(Math, userData.map(function(o) { return o.id; }))
+    // console.log(last);
+
     const simpleValidator = useRef(new SimpleReactValidator({
         autoForceUpdate: this,
         className: 'text-danger',
@@ -53,13 +58,13 @@ const ShowAddUserForm = (props) => {
     const btnInsertNewUser = () => {
         if (simpleValidator.current.allValid()) {
             props.setStateOfParent({
-                id: 11,
-                name: '123123213',
-                family: ' sdfsdfsdfdsf',
-                password: 'fdgdfgfdgfdg',
-                email: '23324@gma234dfil.com',
-                IsAdmin: true,
-                IsStatus: true,
+                id: props.data.length+1,
+                name: stateForm.name,
+                family: stateForm.family,
+                password: stateForm.password,
+                email: stateForm.email,
+                IsAdmin: stateForm.chk_admin,
+                IsStatus: stateForm.chk_status,
                 created_at: '1401/02/22',
                 updated_at: '1401/02/22'
             });
