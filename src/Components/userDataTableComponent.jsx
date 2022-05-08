@@ -1,7 +1,10 @@
 import React, {useState} from "react";
 import {Table} from "react-bootstrap";
 import NewUserForm from "./newUserComponent";
-import {toast} from "react-toastify";
+import {ConvertTimestampToPersianDate} from "../Helper/persianDateComponent";
+import {ToastAlert} from "../Helper/toastComponent";
+import DeleteSelectedUser from "../Components/deleteUser";
+import EditSelectedUser from "../Components/editUser";
 
 const DataTable = (props) => {
 
@@ -14,16 +17,21 @@ const DataTable = (props) => {
             return ele.id !== parseInt(id);
         })
         setUserData(removeUserItem)
-        toast.success('شماره کاربری ' + id + ' به درستی حذف شد.', {
-            position: "bottom-right",
-            autoClose: 3000,
-            rtl: true,
-            theme: "colored",
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-        });
+        ToastAlert('شماره کاربری ' + id + ' به درستی حذف شد.')
+    }
+    const deleteUserParent = (id) => {
+        const removeUserItem = userData.filter(function (ele) {
+            return ele.id !== parseInt(id);
+        })
+        setUserData(removeUserItem)
+        ToastAlert('شماره کاربری ' + id + ' به درستی حذف شد.')
+    }
+    const editUserParent = (id) => {
+        const removeUserItem = userData.filter(function (ele) {
+            return ele.id !== parseInt(id);
+        })
+        setUserData(removeUserItem)
+        ToastAlert('کاربر انتخابی بروزرسانی شد')
     }
 
     //add item form(child component) to this state
@@ -64,6 +72,7 @@ const DataTable = (props) => {
                 <tbody>
                 {
                     userData.map(userdata => (
+
                         <tr key={userdata.id}>
                             <td>{userdata.id}</td>
                             <td>{userdata.name}</td>
@@ -76,15 +85,22 @@ const DataTable = (props) => {
                             <td className={'text-center'}>{userdata.IsStatus ?
                                 <i className='fas fa-unlock text-success'/> :
                                 <i className='fas fa-lock text-danger'/>}</td>
-                            <td>{userdata.created_at}</td>
-                            <td>{userdata.updated_at}</td>
+                            <td>{
+                                // moment(new Date(userdata.created_at), 'YYYY/MM/DD').locale('fa').format('YYYY/MM/DD')
+                                ConvertTimestampToPersianDate(userdata.created_at)
+                            }</td>
+                            <td>{
+                                ConvertTimestampToPersianDate(userdata.created_at)
+                            }</td>
                             <td>
-                                <button className={'btn btn-primary btn-xs m-1'}><i className={'fas fa-edit'}/> ویرایش
-                                </button>
-                                <button onClick={() => deleteUser(userdata.id)} className={'btn btn-danger btn-xs m-1'}>
-                                    <i
-                                        className={'fas fa-trash'}/> حذف
-                                </button>
+                                {/*<button className={'btn btn-primary btn-xs m-1'}><i className={'fas fa-edit'}/> ویرایش*/}
+                                {/*</button>*/}
+                                <EditSelectedUser userid={userdata.id} propsClick={editUserParent}/>
+                                <DeleteSelectedUser userid={userdata.id} propsClick={deleteUserParent}/>
+                                {/*<button onClick={() => deleteUser(userdata.id)} className={'btn btn-danger btn-xs m-1'}>*/}
+                                {/*    <i*/}
+                                {/*        className={'fas fa-trash'}/> حذف*/}
+                                {/*</button>*/}
                             </td>
                         </tr>
                     ))

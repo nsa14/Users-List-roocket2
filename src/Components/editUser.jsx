@@ -1,21 +1,21 @@
 import React, {useState} from 'react';
 import {ToastAlert} from "../Helper/toastComponent";
 
-const DeleteSelectedUser = (props) => {
+const EditSelectedUser = (props) => {
     const[userid, setUserId] = useState(props.userid);
 
-    const btnDeleteUser = () => {
+    const btnEditUser = () => {
         props.propsClick(userid);
     }
 
     return (
         <>
-            <button className={'btn btn-danger btn-xs m-1'} onClick={btnDeleteUser}>
+            <button className={'btn btn-primary btn-xs m-1'} onClick={btnEditUser}>
                 <i
-                    className={'fas fa-trash'}/> حذف
+                    className={'fas fa-edit'}/> ویرایش
             </button>
         </>
     );
 };
 
-export default DeleteSelectedUser;
+export default EditSelectedUser;

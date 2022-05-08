@@ -1,8 +1,7 @@
 import React, {useRef, useState} from "react";
 import {Button, Modal, Form} from "react-bootstrap";
-import BootstrapSwitchButton from 'bootstrap-switch-button-react'
-import {ToastContainer, toast} from 'react-toastify';
 import SimpleReactValidator from 'simple-react-validator';
+import {ToastAlert} from "../Helper/toastComponent";
 
 const ShowAddUserForm = (props) => {
 
@@ -12,7 +11,6 @@ const ShowAddUserForm = (props) => {
     // console.log(last);
 
     const simpleValidator = useRef(new SimpleReactValidator({
-        autoForceUpdate: this,
         className: 'text-danger',
         messages: {
             required: " نباید خالی باشد",
@@ -53,7 +51,10 @@ const ShowAddUserForm = (props) => {
         }
     }
 
-    const openModal = () => setIsOpen(true);
+    const openModal = () => {
+        setIsOpen(true);
+        setStateForm({});
+    }
     const closeModal = () => setIsOpen(false);
     const btnInsertNewUser = () => {
         if (simpleValidator.current.allValid()) {
@@ -65,30 +66,14 @@ const ShowAddUserForm = (props) => {
                 email: stateForm.email,
                 IsAdmin: stateForm.chk_admin,
                 IsStatus: stateForm.chk_status,
-                created_at: '1401/02/22',
-                updated_at: '1401/02/22'
+                created_at: Date.now (),
+                updated_at: Date.now ()
             });
-            toast.success(' کاربر جدید به درستی اضافه گردید', {
-                position: "bottom-right",
-                autoClose: 3000,
-                rtl: true,
-                theme: "colored",
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-            });
+            ToastAlert(' کاربر جدید به درستی اضافه گردید','success')
+            setIsOpen(false)
+
         } else {
-            toast.error(' خطاهای فرم را برطرف کنید', {
-                position: "bottom-right",
-                autoClose: 3000,
-                rtl: true,
-                theme: "colored",
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-            });
+            ToastAlert('خطاهای فرم را برطرف کنید','error')
             console.log('error' + JSON.stringify(simpleValidator.current.getErrorMessages()));
         }
     }
