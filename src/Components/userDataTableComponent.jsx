@@ -26,12 +26,15 @@ const DataTable = (props) => {
         setUserData(removeUserItem)
         ToastAlert('شماره کاربری ' + id + ' به درستی حذف شد.')
     }
-    const editUserParent = (id) => {
+    const editUserParent = (update) => {
+        // console.log('editUserParent method is : ')
+        // console.log(update)
         const removeUserItem = userData.filter(function (ele) {
-            return ele.id !== parseInt(id);
+            return ele.id !== parseInt(update.id);
         })
-        setUserData(removeUserItem)
-        ToastAlert('کاربر انتخابی بروزرسانی شد')
+        setUserData(currentArray => [...removeUserItem, update])
+        // console.log('newData : ');
+        // console.log(userData);
     }
 
     //add item form(child component) to this state
@@ -86,7 +89,6 @@ const DataTable = (props) => {
                                 <i className='fas fa-unlock text-success'/> :
                                 <i className='fas fa-lock text-danger'/>}</td>
                             <td>{
-                                // moment(new Date(userdata.created_at), 'YYYY/MM/DD').locale('fa').format('YYYY/MM/DD')
                                 ConvertTimestampToPersianDate(userdata.created_at)
                             }</td>
                             <td>{
@@ -95,7 +97,7 @@ const DataTable = (props) => {
                             <td>
                                 {/*<button className={'btn btn-primary btn-xs m-1'}><i className={'fas fa-edit'}/> ویرایش*/}
                                 {/*</button>*/}
-                                <EditSelectedUser userid={userdata.id} propsClick={editUserParent}/>
+                                <EditSelectedUser userid={userdata.id} userdata={userData} propsUpdateParentClick={editUserParent}/>
                                 <DeleteSelectedUser userid={userdata.id} propsClick={deleteUserParent}/>
                                 {/*<button onClick={() => deleteUser(userdata.id)} className={'btn btn-danger btn-xs m-1'}>*/}
                                 {/*    <i*/}

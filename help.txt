@@ -6,6 +6,10 @@ git branch -M main
 git remote add origin https://github.com/nsa14/Users-List-roocket2.git
 git push -u origin main
 
+
+get last update:
+git pull
+
 ------------------------------------
 https://fkhadra.github.io/react-toastify/installation
 npm install bootstrap

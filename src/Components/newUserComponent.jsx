@@ -6,9 +6,6 @@ import {ToastAlert} from "../Helper/toastComponent";
 const ShowAddUserForm = (props) => {
 
     const [userData,setUserData] = useState(props.data);
-    const lastUserDataId = userData.length>0? Math.max.apply(Math, userData.map(function(o) { return o.id; })): 1;
-    // const lastUserDataId = Math.max.apply(Math, userData.map(function(o) { return o.id; }))
-    // console.log(last);
 
     const simpleValidator = useRef(new SimpleReactValidator({
         className: 'text-danger',
@@ -23,9 +20,7 @@ const ShowAddUserForm = (props) => {
     }));
 
 
-    // const [isStatus, setIsStatus] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
-    // const [name, setName] = useState('');
     const formEventHandler = (e) => {
         setStateForm({
             ...stateForm,
@@ -148,7 +143,7 @@ const ShowAddUserForm = (props) => {
                             controlId="exampleForm.chk_admin">
                             <Form.Check
                                 name="chk_admin"
-                                value={stateForm.chk_admin}
+                                checked={stateForm.chk_admin}
                                 onChange={formEventHandler.bind(this)}
                                 type="switch"
                                 id="chk_admin"
@@ -158,7 +153,7 @@ const ShowAddUserForm = (props) => {
                         <Form.Group>
                             <Form.Check
                                 name="chk_status"
-                                value={stateForm.chk_status}
+                                checked={stateForm.chk_status}
                                 onChange={formEventHandler.bind(this)}
                                 type="switch"
                                 id="chk_status"
