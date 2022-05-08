@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import {ToastAlert} from "../Helper/toastComponent";
 
 const DeleteSelectedUser = (props) => {
     const[userid, setUserId] = useState(props.userid);

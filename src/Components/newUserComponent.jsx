@@ -4,9 +4,6 @@ import SimpleReactValidator from 'simple-react-validator';
 import {ToastAlert} from "../Helper/toastComponent";
 
 const ShowAddUserForm = (props) => {
-
-    const [userData,setUserData] = useState(props.data);
-
     const simpleValidator = useRef(new SimpleReactValidator({
         className: 'text-danger',
         messages: {
@@ -69,7 +66,6 @@ const ShowAddUserForm = (props) => {
 
         } else {
             ToastAlert('خطاهای فرم را برطرف کنید','error')
-            console.log('error' + JSON.stringify(simpleValidator.current.getErrorMessages()));
         }
     }
 
@@ -84,7 +80,6 @@ const ShowAddUserForm = (props) => {
                     <Modal.Title>تمامی فیلد ها الزامی می باشد</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    {/*<Form onSubmit={btnInsertNewUser} className="col-md-4 mx-auto" style={{textAlign: 'right'}}>*/}
                     <Form className="col-md-4 mx-auto" style={{textAlign: 'right'}}>
                         <Form.Group className="mb-3" controlId="exampleForm.name">
                             <Form.Label>نام</Form.Label>
@@ -94,7 +89,6 @@ const ShowAddUserForm = (props) => {
                                 value={stateForm.name}
                                 onChange={formEventHandler.bind(this)}
                                 onBlur={handleFullNameBlur.bind(this)}
-                                // onBlur={() => simpleValidator.current.showMessageFor('name')}
                                 placeholder="نام را وارد کنید"
                             />
                             {simpleValidator.current.message('name', stateForm.name, 'required|alpha')}

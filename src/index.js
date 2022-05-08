@@ -12,10 +12,26 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <>
 
-        <div className={'row'}>
-            <div className="col-md-12 pt-4">
-                <UserListComponent/>
+        <div className={'row'} >
+            <div className="area">
+                <div className="col-md-12 pt-4">
+                    <UserListComponent style={{zIndex:'999999'}} />
+                    <ul className="circles">
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                    </ul>
+                </div>
+
             </div>
+
         </div>
     </>
 );
