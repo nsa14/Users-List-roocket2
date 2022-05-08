@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Table} from "react-bootstrap";
 import NewUserForm from "./newUserComponent";
 import {ConvertTimestampToPersianDate} from "../Helper/persianDateComponent";
@@ -9,6 +9,34 @@ import EditSelectedUser from "./editUserComponent";
 const DataTable = (props) => {
 
     let [userData, setUserData] = useState([]);
+    let [localStorageData, setLocalStorageData] = useState(localStorage.setItem("data_practice_2", []));
+
+    useEffect(() => {
+        //create or fetch data from local storage
+        if (localStorageData === null) {
+            // localStorage.setItem("data_practice_2", JSON.stringify({
+            //     id: 0,
+            //     name: 'naser',
+            //     family: 'zare',
+            //     password: 'asjdhjksahd',
+            //     email: 'zare@naser.com',
+            //     IsAdmin: true,
+            //     IsStatus: false,
+            //     created_at: Date.now(),
+            //     updated_at: Date.now(),
+            // }));
+            setUserData([localStorageData])
+        } else {
+            // setUserData(currentArray => [...currentArray, localStorageData])
+            // setUserData(JSON.stringify([localStorageData]))
+            // setUserData([])
+        }
+        // console.log('localStorageData use effect is :')
+        // console.log(localStorageData)
+        // setUserData(localStorageData)
+
+    }, []);
+
 
     const deleteUserParent = (id) => {
         const removeUserItem = userData.filter(function (ele) {
@@ -31,11 +59,24 @@ const DataTable = (props) => {
 
         // setUserListDataState([...userListDataState, newFormData]);
         setUserData(currentArray => [...currentArray, newFormData])
+        console.log('newFormData is : ');
+        console.log(newFormData);
+
+        console.log('userData is : ');
+        console.log(userData);
+        // localStorage.setItem("data_practice", JSON.stringify(localStorageData));
         // setUserListDataState([...userListDataState, {...newFormData}]);
+
+        // const localStorageData = JSON.parse(localStorage.getItem("data_practice_2"));
+        // localStorageData.push(newFormData);
+        // localStorage.setItem("data_practice_2", JSON.stringify([newFormData]))
+
     }
+
 
     return (
         <>
+            {JSON.stringify(userData)}
             <div className="m-3 p-2">
                 <NewUserForm data={userData} setStateOfParent={setStateOfParent}/>
             </div>
@@ -84,7 +125,10 @@ const DataTable = (props) => {
                                 </tr>
                             )
                         ) :
-                        <tr className="text-center"><td colSpan={10}><span className="text-center text-danger">&#9785;  داده ایی در state برای نمایش وجود ندارد &#9785;</span></td></tr>
+                        <tr className="text-center">
+                            <td colSpan={10}><span className="text-center text-danger">&#9785;  داده ایی در state برای نمایش وجود ندارد &#9785;</span>
+                            </td>
+                        </tr>
                 }
                 </tbody>
             </Table>
