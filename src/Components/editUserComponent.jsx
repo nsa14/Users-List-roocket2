@@ -4,12 +4,12 @@ import {ToastAlert} from "../Helper/toastComponent";
 
 const EditSelectedUser = (props) => {
 
-    const [userid, setUserId] = useState(props.userid);
-    const [userData, setUserData] = useState(props.userdata);
+    const [userid] = useState(props.userid);
+    const [userData] = useState(props.userdata);
 
     const findRow = userData.filter(function (ele) {
         return ele.id === userid;
-    });
+    })[0];
 
     const [isOpen, setIsOpen] = useState(false);
     const formEventHandler = (e) => {
@@ -19,14 +19,14 @@ const EditSelectedUser = (props) => {
         })
     };
     const [stateForm, setStateForm] = useState({
-        name: findRow[0].name,
-        family: findRow[0].family,
-        email: findRow[0].email,
-        password: findRow[0].password,
-        chk_admin: findRow[0].IsAdmin === undefined ? false : findRow[0].IsAdmin,
-        chk_status: findRow[0].IsStatus === undefined ? false : findRow[0].IsStatus,
-        created_at: findRow[0].created_at,
-        updated_at: findRow[0].updated_at,
+        name: findRow.name,
+        family: findRow.family,
+        email: findRow.email,
+        password: findRow.password,
+        chk_admin: findRow.IsAdmin,
+        chk_status: findRow.IsStatus,
+        created_at: findRow.created_at,
+        updated_at: findRow.updated_at,
     });
 
     const openModal = () => {

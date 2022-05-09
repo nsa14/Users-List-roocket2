@@ -47,11 +47,13 @@ const ShowAddUserForm = (props) => {
         setIsOpen(true);
         setStateForm({});
     }
-    const closeModal = () => setIsOpen(false);
+
+    const changeModalStatus=(status)=>setIsOpen(status)
+
     const btnInsertNewUser = () => {
         if (simpleValidator.current.allValid()) {
             props.setStateOfParent({
-                id: props.data.length+1,
+                id: props.data.length*3,
                 name: stateForm.name,
                 family: stateForm.family,
                 password: stateForm.password,
@@ -69,13 +71,12 @@ const ShowAddUserForm = (props) => {
         }
     }
 
-
     return (
         <>
             <Button variant="primary" onClick={openModal}>
                 ایجاد یوزر جدید
             </Button>
-            <Modal show={isOpen} fullscreen onHide={closeModal} aria-labelledby="example-modal-sizes-title-lg">
+            <Modal show={isOpen} fullscreen onHide={changeModalStatus} className="modal fade-scale" aria-labelledby="example-modal-sizes-title-lg">
                 <Modal.Header closeButton>
                     <Modal.Title>تمامی فیلد ها الزامی می باشد</Modal.Title>
                 </Modal.Header>
@@ -159,7 +160,7 @@ const ShowAddUserForm = (props) => {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={closeModal}>بستن</Button>
+                    <Button variant="secondary" onClick={()=>changeModalStatus(false)}>بستن</Button>
                 </Modal.Footer>
             </Modal>
         </>
