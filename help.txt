@@ -10,13 +10,13 @@ git push -u origin main
 get last update:
 git pull
 
+npm unistall ?
+
 ------------------------------------
 https://fkhadra.github.io/react-toastify/installation
 npm install bootstrap
 npm i mdb-react-ui-kit ??? error
 npm install --save-dev @fortawesome/fontawesome-free
-npm install validator--not used
-npm install simple-react-validator --save
 npm install react-persian-datepicker --save not used
 
 

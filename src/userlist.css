@@ -1,3 +1,10 @@
 .bg-main{
     background-color: #f5f7f9;
 }
+.form-element{
+    color: red;
+    display: block;
+    font-size: smaller;
+    direction: rtl;
+
+}

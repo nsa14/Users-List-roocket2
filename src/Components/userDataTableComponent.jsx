@@ -9,61 +9,33 @@ import EditSelectedUser from "./editUserComponent";
 const DataTable = () => {
 
     let [userData, setUserData] = useState([]);
-
-    // let [localStorageState, setLocalStorageState] = useState({
-    //     localStorageDataCount: localStorage.getItem("data_practice_2")!==null ?localStorage.getItem("data_practice_2").length:0,
-    // });
+    const lsDataCount = localStorage.getItem("data_practice_2") !== null ? localStorage.getItem("data_practice_2").length : 0;
 
     useEffect(() => {
-        const LSUD = localStorage.getItem("data_practice_2");
-        console.log('userData useEffect is : ')
-        console.log(LSUD);
-        if (LSUD.length <= 2 || !LSUD) {
-            // empty local storage
-            console.log('localstorage is empty ');
+        if(lsDataCount===0){
             localStorage.setItem("data_practice_2", '[]')
-            setUserData([])
-            return false;
-        } else {
-            // const LSUD = localStorage.getItem("data_practice_2");
-            if (userData.length > 0) {
-                localStorage.setItem("data_practice_2", JSON.stringify(userData));
-            } else {
-                setUserData(JSON.parse(LSUD))
-            }
-            console.log('LSUD is : ')
-            console.log(JSON.parse(LSUD))
-            // console.log('userData useEffect222 is : ');
-            // console.log(userData);
         }
-        //create or fetch data from local storage
-        // if (localStorageData === null) {
-        // localStorage.setItem("data_practice_2", JSON.stringify({
-        //     id: 0,
-        //     name: 'naser',
-        //     family: 'zare',
-        //     password: 'asjdhjksahd',
-        //     email: 'zare@naser.com',
-        //     IsAdmin: true,
-        //     IsStatus: false,
-        //     created_at: Date.now(),
-        //     updated_at: Date.now(),
-        // }));
-        // setUserData([localStorageData])
-        // } else {
-        // setUserData(currentArray => [...currentArray, localStorageData])
-        // setUserData(JSON.stringify([localStorageData]))
-        // setUserData([])
-        // }
-        // console.log('localStorageData use effect is :')
-        // console.log(localStorageData)
-        // setUserData(localStorageData)
-
+        if (userData.length > 0) {
+            localStorage.setItem("data_practice_2", JSON.stringify(userData));
+        } else if(lsDataCount >2) {
+            loadDataOnlyOnce();
+        }else if(userData.length ===null) {
+            loadDataOnlyOnce();
+        }
     });
 
     /**
+     * set localstorage data to state userDate
+     */
+    function loadDataOnlyOnce(){
+        let LSUD = localStorage.getItem("data_practice_2");
+        setUserData(JSON.parse(LSUD))
+    }
+    
+    /**
      * delete User in state . use it parent .
      * @param id passed on child component and use in this parent method
+     * if state count === 0 re-create localstorage empty
      */
     const deleteUserParent = (id) => {
         const removeUserItem = userData.filter(function (ele) {
@@ -71,6 +43,9 @@ const DataTable = () => {
         })
         setUserData(removeUserItem)
         ToastAlert('شماره کاربری ' + id + ' به درستی حذف شد.')
+        if (removeUserItem.length===0){
+            localStorage.setItem("data_practice_2", '[]')
+        }
     }
 
     /**

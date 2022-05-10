@@ -11,7 +11,7 @@ import UserListComponent from './UserList.jsx';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <>
-
+        {/*effect background*/}
         <div className={'row'} >
             <div className="area">
                 <div className="col-md-12 pt-4">
@@ -29,9 +29,7 @@ root.render(
                         <li></li>
                     </ul>
                 </div>
-
             </div>
-
         </div>
     </>
 );
