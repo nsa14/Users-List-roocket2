@@ -47,7 +47,7 @@ const ShowAddUserForm = ({setStateOfParent}) => {
 
     return (
         <>
-            <Button variant="primary" onClick={openModal}>ایجاد یوزر جدید</Button>
+            <Button variant="primary" onClick={openModal}>ایجاد کاربر جدید</Button>
 
             <Modal onSubmit={handleSubmit(onSubmit)} show={isOpen} fullscreen onHide={changeModalStatus} className="modal fade-scalenewUserComponent.jsx" aria-labelledby="example-modal-sizes-title-lg">
                 <Modal.Header closeButton>

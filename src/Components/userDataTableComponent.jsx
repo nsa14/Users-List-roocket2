@@ -43,7 +43,7 @@ const DataTable = () => {
                 <Table style={{direction: 'rtl', lineHeight: '60px'}} striped hover>
                     <TableHead titles={['نام', 'فامیل', 'رمز', 'ایمیل', 'کاربری', 'وضعیت', 'تاریخ ثبت', 'عملیات']} />
                     <tbody>{users.map(user => <UserDataTableItem key={user.id} userData={user} deleteUserParent={deleteUserParent} editUserParent={editUserParent}  />)}</tbody>
-                    <TableFooter data={users.length} colSpan="7" />
+                    <TableFooter dataLength={users.length} colSpan="8" />
                 </Table>
             </div>
 
