@@ -1,65 +1,32 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import {Button, Form, Modal} from "react-bootstrap";
 import {ToastAlert} from "../Helper/toastComponent";
 
-const EditSelectedUser = (props) => {
-
-    const [userid] = useState(props.userid);
-    const [userData] = useState(props.userdata);
-
-    const findRow = userData.filter(function (ele) {
-        return ele.id === userid;
-    })[0];
+export default ({userData, propsUpdateParentClick}) => {
 
     const [isOpen, setIsOpen] = useState(false);
-    const formEventHandler = (e) => {
-        setStateForm({
-            ...stateForm,
-            [e.target.name]: (e.target.type === 'checkbox') ? e.target.checked : e.target.value,
-        })
-    };
-    const [stateForm, setStateForm] = useState({
-        name: findRow.name,
-        family: findRow.family,
-        email: findRow.email,
-        password: findRow.password,
-        chk_admin: findRow.IsAdmin,
-        chk_status: findRow.IsStatus,
-        created_at: findRow.created_at,
-        updated_at: findRow.updated_at,
-    });
 
-    const openModal = () => {
-        setIsOpen(true);
-    }
-    const closeModal = () => setIsOpen(false);
+    const [stateForm, setStateForm] = useState(userData);
 
-    function btnEditUser() {
-        props.propsUpdateParentClick({
-            id: userid,
-            name: stateForm.name,
-            family: stateForm.family,
-            password: stateForm.password,
-            email: stateForm.email,
-            IsAdmin: stateForm.chk_admin,
-            IsStatus: stateForm.chk_status,
-            created_at: stateForm.created_at,
-            updated_at: Date.now()
-        });
-        ToastAlert(' کاربر انتخابی به درستی ویرایش گردید', 'success')
+    const formEventHandler = e => setStateForm({...stateForm, [e.target.name]: (e.target.type === 'checkbox') ? e.target.checked : e.target.value});
+
+    const btnEditUser = () => {
+        propsUpdateParentClick({...stateForm, id: userData.id, updated_at: Date.now()})
+        ToastAlert('کاربر انتخابی به درستی ویرایش گردید', 'success')
         setIsOpen(false)
     }
 
     return (
         <>
-            <button className={'btn btn-primary btn-xs m-1'} onClick={openModal}>
-                <i
-                    className={'fas fa-edit'}/> ویرایش
+            <button className={'btn btn-primary btn-sm m-1'} onClick={() => setIsOpen(true)}>
+                <i className={'fas fa-edit'}/> ویرایش
             </button>
-            <Modal show={isOpen} fullscreen onHide={closeModal} aria-labelledby="example-modal-sizes-title-lg">
+
+            <Modal show={isOpen} fullscreen onHide={() => setIsOpen(false)}>
                 <Modal.Header closeButton>
                     <Modal.Title>تمامی فیلد ها الزامی می باشد</Modal.Title>
                 </Modal.Header>
+
                 <Modal.Body>
                     <Form className="col-md-4 mx-auto" style={{textAlign: 'right'}}>
                         <Form.Group className="mb-3" controlId="exampleForm.name">
@@ -130,11 +97,9 @@ const EditSelectedUser = (props) => {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={closeModal}>بستن</Button>
+                    <Button variant="secondary" onClick={() => setIsOpen(false)}>بستن</Button>
                 </Modal.Footer>
             </Modal>
         </>
     );
 };
-
-export default EditSelectedUser;
