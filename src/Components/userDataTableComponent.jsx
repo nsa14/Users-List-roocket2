@@ -4,6 +4,7 @@ import NewUserForm from "./newUserComponent";
 import TableHead from './table/TableHead';
 import UserDataTableItem from './userDataTableItemComponent';
 import TableFooter from './table/TableFooter';
+import SearchUser from "./searchUserComponent";
 
 const DataTable = () => {
 
@@ -11,6 +12,7 @@ const DataTable = () => {
 
     useEffect(() => {
         localStorage.users = JSON.stringify(users)
+        localStorage.tempUsers = localStorage.tempUsers??JSON.stringify(users);
     }, [users]);
     
     /**
@@ -31,11 +33,21 @@ const DataTable = () => {
      * @param newFormData object of data add to state inside old data state
      */
     const setStateOfParent = (newUser) => setUsers(prevUsers => [newUser, ...prevUsers]);
+    const searchUserInParent = (findUser) => {
+        console.log(findUser)
+        if (findUser===null){
+            setUsers(JSON.parse(localStorage.tempUsers))
+        }else{
+            localStorage.tempUsers = JSON.stringify(users);
+            setUsers(findUser)
+        }
+    };
 
     return (
         <>
             <div className="d-flex justify-content-between align-items-center my-3">
                 <NewUserForm data={users} setStateOfParent={setStateOfParent}/>
+                <SearchUser searchClick={searchUserInParent}/>
                 <h4 className="text-secondary">لیست کاربران</h4>
             </div>
 

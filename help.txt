@@ -1,4 +1,4 @@
-
+------------------------------------------------------------------
 git init
 git add .
 git commit -m "first commit project"
@@ -6,10 +6,23 @@ git branch -M main
 git remote add origin https://github.com/nsa14/Users-List-roocket2.git
 git push -u origin main
 
-
+------------------------------------------------------------------
 get last update:
 git pull
+------------------------------------------------------------------
+get fork and make changes in local and push to git
 
+git checkout -b "name new branch"
+--now change all changes to this project
+git status : view branch name
+git add .
+git commit -m "message"
+git push origin "branch name"
+#########################
+if clone project with my changes then switch to my branch
+gor checkgout "branchName"
+now view project my changes
+------------------------------------------------------------------
 npm unistall ?
 
 ------------------------------------

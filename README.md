@@ -2,6 +2,21 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+
+## Screenshot of UI project UsersManage
+<img src="./public/Screenshot%202022-05-12%20at%2023.41.08.png">
+
+## لیست عملیات 
+
+ایجاد شده با react js v18.\
+به روش functional component.\
+ایجاد کاربر جدید بصورت modalBox.\
+قابلیت حذف کاربر.\
+ویرایش کاربر انتخابی.\
+آخرین فورک توسط @rezaporsalar انجام شده است.
+
+
+
 ## Available Scripts
 
 In the project directory, you can run:
