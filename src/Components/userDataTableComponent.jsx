@@ -1,10 +1,12 @@
 import {useEffect, useState} from "react";
 import {Table} from "react-bootstrap";
-import NewUserForm from "./newUserComponent";
+// import NewUserForm from "./newUserComponent";
 import TableHead from './table/TableHead';
 import UserDataTableItem from './userDataTableItemComponent';
 import TableFooter from './table/TableFooter';
-import SearchUser from "./searchUserComponent";
+import Header from '../theme_section/Header';
+// import SearchUser from "./searchUserComponent";
+import Footer from "../theme_section/Footer";
 
 const DataTable = () => {
 
@@ -12,9 +14,9 @@ const DataTable = () => {
 
     useEffect(() => {
         localStorage.users = JSON.stringify(users)
-        localStorage.tempUsers = localStorage.tempUsers??JSON.stringify(users);
+        localStorage.tempUsers = JSON.stringify(users);
     }, [users]);
-    
+
     /**
      * delete User in state . use it parent .
      * @param id passed on child component and use in this parent method
@@ -32,12 +34,20 @@ const DataTable = () => {
      * add item form(child component) to this state
      * @param newFormData object of data add to state inside old data state
      */
-    const setStateOfParent = (newUser) => setUsers(prevUsers => [newUser, ...prevUsers]);
-    const searchUserInParent = (findUser) => {
-        console.log(findUser)
-        if (findUser===null){
-            setUsers(JSON.parse(localStorage.tempUsers))
-        }else{
+    const addNewUserInParent = (newUser) => setUsers(prevUsers => [newUser, ...prevUsers]);
+
+    /**
+     * find name field in local storage and show
+     * @param findUser is name field
+     */
+    const searchUserInParentMain = (findUser) => {
+        // console.log(findUser)
+        localStorage.tempUsers = JSON.stringify(users);
+
+        if (findUser === null) {
+            // localStorage.tempUsers='tempUsers' in localStorage ?JSON.parse(localStorage.tempUsers): [];
+            // setUsers( users ?? JSON.parse(localStorage.tempUsers))
+        } else {
             localStorage.tempUsers = JSON.stringify(users);
             setUsers(findUser)
         }
@@ -45,26 +55,19 @@ const DataTable = () => {
 
     return (
         <>
-            <div className="d-flex justify-content-between align-items-center my-3">
-                <NewUserForm data={users} setStateOfParent={setStateOfParent}/>
-                <SearchUser searchClick={searchUserInParent}/>
-                <h4 className="text-secondary">لیست کاربران</h4>
-            </div>
+            <Header data={users} setStateOfParent={addNewUserInParent} searchClick={searchUserInParentMain}/>
 
             <div className="table-responsive">
                 <Table style={{direction: 'rtl', lineHeight: '60px'}} striped hover>
-                    <TableHead titles={['نام', 'فامیل', 'رمز', 'ایمیل', 'کاربری', 'وضعیت', 'تاریخ ثبت', 'عملیات']} />
-                    <tbody>{users.map(user => <UserDataTableItem key={user.id} userData={user} deleteUserParent={deleteUserParent} editUserParent={editUserParent}  />)}</tbody>
-                    <TableFooter dataLength={users.length} colSpan="8" />
+                    <TableHead titles={['نام', 'فامیل', 'رمز', 'ایمیل', 'کاربری', 'وضعیت', 'تاریخ ثبت', 'عملیات']}/>
+                    <tbody>{users.map(user => <UserDataTableItem key={user.id} userData={user}
+                                                                 deleteUserParent={deleteUserParent}
+                                                                 editUserParent={editUserParent}/>)}</tbody>
+                    <TableFooter dataLength={users.length} colSpan="8"/>
                 </Table>
             </div>
 
-            <div>
-                current State component is:<br/>
-                <div role="alert" className="alert alert-dark text text-break">
-                    {JSON.stringify(users)}
-                </div>
-            </div>
+            <Footer users={users}/>
         </>
     )
 }

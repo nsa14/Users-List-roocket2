@@ -15,6 +15,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ویرایش کاربر انتخابی.\
 آخرین فورک توسط @rezaporsalar انجام شده است.
 
+آخرین تغییرات:\
+اضافه کردن باکس جستجو در فیلد نام\
 
 
 ## Available Scripts
