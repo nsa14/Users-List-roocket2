@@ -60,7 +60,7 @@ const DataTable = () => {
             <div className="table-responsive">
                 <Table style={{direction: 'rtl', lineHeight: '60px'}} striped hover>
                     <TableHead titles={['نام', 'فامیل', 'رمز', 'ایمیل', 'کاربری', 'وضعیت', 'تاریخ ثبت', 'عملیات']}/>
-                    <tbody>{users.map(user => <UserDataTableItem key={user.id} userData={user}
+                    <tbody>{users.map(user => <UserDataTableItem key={user.id + Math.random() * 100} userData={user}
                                                                  deleteUserParent={deleteUserParent}
                                                                  editUserParent={editUserParent}/>)}</tbody>
                     <TableFooter dataLength={users.length} colSpan="8"/>
