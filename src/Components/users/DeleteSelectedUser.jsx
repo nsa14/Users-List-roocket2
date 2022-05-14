@@ -1,7 +1,7 @@
-import {ToastAlert} from "../Helper/toastComponent";
+import {ToastAlert} from "../../Helper/ToastAlert";
 
 const DeleteSelectedUser = ({propsClick, userId}) => {
-    
+
     const deleteHandler = () => {
         const result = window.confirm("آیا مطمئن هستید؟")
         if (result) {

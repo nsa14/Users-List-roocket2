@@ -1,9 +1,11 @@
-import NewUserForm from "../Components/newUserComponent";
-import SearchUser from "../Components/searchUserComponent";
+import NewUserForm from "../../users/ShowAddUserForm";
+import SearchUser from "../../users/SearchUser";
 
 const Header = ({users, setStateOfParent, searchClick}) => {
 
-    const searchUserInParent = (findUser) => {searchClick(findUser)};
+    const searchUserInParent = (findUser) => {
+        searchClick(findUser)
+    };
 
     return (
         <div className="d-flex justify-content-between align-items-center my-3">

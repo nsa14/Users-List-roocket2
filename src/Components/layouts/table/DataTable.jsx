@@ -1,9 +1,9 @@
 import {useEffect, useState} from "react";
 import {Table} from "react-bootstrap";
 // import NewUserForm from "./newUserComponent";
-import TableHead from './table/TableHead';
-import UserDataTableItem from './userDataTableItemComponent';
-import TableFooter from './table/TableFooter';
+import TableHead from './TableHead';
+import UserDataTableItem from '../../users/UserDataTableItem';
+import TableFooter from './TableFooter';
 import Header from '../theme_section/Header';
 // import SearchUser from "./searchUserComponent";
 import Footer from "../theme_section/Footer";
@@ -60,7 +60,7 @@ const DataTable = () => {
             <div className="table-responsive">
                 <Table style={{direction: 'rtl', lineHeight: '60px'}} striped hover>
                     <TableHead titles={['نام', 'فامیل', 'رمز', 'ایمیل', 'کاربری', 'وضعیت', 'تاریخ ثبت', 'عملیات']}/>
-                    <tbody>{users.map(user => <UserDataTableItem key={user.id} userData={user}
+                    <tbody>{users.map(user => <UserDataTableItem key={user.id + Math.random() * 100} userData={user}
                                                                  deleteUserParent={deleteUserParent}
                                                                  editUserParent={editUserParent}/>)}</tbody>
                     <TableFooter dataLength={users.length} colSpan="8"/>

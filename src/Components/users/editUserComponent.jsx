@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import {Button, Form, Modal} from "react-bootstrap";
-import {ToastAlert} from "../Helper/toastComponent";
+import {ToastAlert} from "../../Helper/ToastAlert";
 
 export default ({userData, propsUpdateParentClick}) => {
 
