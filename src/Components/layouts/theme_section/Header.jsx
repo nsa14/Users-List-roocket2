@@ -1,5 +1,5 @@
-import NewUserForm from "../users/ShowAddUserForm";
-import SearchUser from "../users/SearchUser";
+import NewUserForm from "../../users/ShowAddUserForm";
+import SearchUser from "../../users/SearchUser";
 
 const Header = ({users, setStateOfParent, searchClick}) => {
 

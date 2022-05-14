@@ -1,4 +1,4 @@
-import UsersTable from './table/DataTable';
+import UsersTable from './layouts/table/DataTable';
 
 const UsersApp = () => {
     return (

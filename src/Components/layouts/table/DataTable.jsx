@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {Table} from "react-bootstrap";
 // import NewUserForm from "./newUserComponent";
 import TableHead from './TableHead';
-import UserDataTableItem from '../users/UserDataTableItem';
+import UserDataTableItem from '../../users/UserDataTableItem';
 import TableFooter from './TableFooter';
 import Header from '../theme_section/Header';
 // import SearchUser from "./searchUserComponent";
