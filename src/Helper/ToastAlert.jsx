@@ -1,7 +1,6 @@
-import {toast, ToastContainer} from "react-toastify";
-import React from "react";
+import {toast} from "react-toastify";
 
-export const ToastAlert = (message, TYPE='success') => {
+export const ToastAlert = (message, TYPE = 'success') => {
 
     return toast(message, {
         position: "bottom-right",
