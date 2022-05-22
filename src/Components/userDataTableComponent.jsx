@@ -1,7 +1,6 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
-import {Table} from "react-bootstrap";
-// import NewUserForm from "./newUserComponent";
+import {Spinner, Table} from "react-bootstrap";
 import TableHead from './table/TableHead';
 import UserDataTableItem from './userDataTableItemComponent';
 import {ApiAddresses} from '../Helper/apiAddressesComponent';
@@ -14,19 +13,32 @@ const DataTable = () => {
 
     // const [users, setUsers] = useState('users' in localStorage ? JSON.parse(localStorage.users) : []);
     const [users, setUsers] = useState([]);
+    const [error, setError] = useState([]);
+    const [loading, setLoading] = useState(false);
+    // //true: is server api   |   false: is localstorage
+    const [storeMethod, setStoreMetho] = useState(false);
 
     useEffect(() => {
-        axios.get(ApiAddresses()).then((response) => {
-            console.log(response.data.length)
-            if (response.data.length>0)
-                setUsers(response.data)
-        });
+        if (storeMethod){
+            setLoading(true);
+            axios.get(ApiAddresses()).then((response) => {
+                // console.log(response.data.data.length)
+                if (response.data.data.length > 0)
+                    setUsers(response.data.data)
+                setLoading(false);
+            }).catch(error => {
+                setError(error);
+            });
+        }else{
+            setUsers('users' in localStorage ? JSON.parse(localStorage.users) : []);
+        }
+
     }, []);
+
     useEffect(() => {
         localStorage.users = JSON.stringify(users)
         localStorage.tempUsers = JSON.stringify(users);
     }, [users]);
-
 
     /**
      * delete User in state . use it parent .
@@ -43,9 +55,30 @@ const DataTable = () => {
 
     /**
      * add item form(child component) to this state
-     * @param newFormData object of data add to state inside old data state
+     * @param newUser object of data add to state inside old data state
      */
-    const addNewUserInParent = (newUser) => setUsers(prevUsers => [newUser, ...prevUsers]);
+        // const addNewUserInParent = (newUser) => setUsers(prevUsers => [newUser, ...prevUsers]);
+    const addNewUserInParent = (newUser) => {
+            const data = {
+                name: newUser.name,
+                family: newUser.family,
+                password: newUser.password,
+                isAdmin: newUser.chk_admin,
+                isStatus: newUser.chk_status,
+                email: newUser.email,
+                created_at: newUser.created_at,
+                updated_at: newUser.updated_at,
+            }
+            // console.log(newUser);
+            // setUsers(prevUsers => [newUser, ...prevUsers]);
+            axios
+                .post(ApiAddresses(), data)
+                .then((response) => {
+                    setUsers(prevState => prevState, response.data);
+                }).catch(error => {
+                setError(error);
+            });
+        }
 
     /**
      * find name field in local storage and show
@@ -69,16 +102,24 @@ const DataTable = () => {
             <Header data={users} setStateOfParent={addNewUserInParent} searchClick={searchUserInParentMain}/>
 
             <div className="table-responsive">
+                { loading? <Spinner className="text-center" animation="border"  />: ''}
                 <Table style={{direction: 'rtl', lineHeight: '60px'}} striped hover>
                     <TableHead titles={['نام', 'فامیل', 'رمز', 'ایمیل', 'کاربری', 'وضعیت', 'تاریخ ثبت', 'عملیات']}/>
-                    <tbody>{users.map(user => <UserDataTableItem key={user.id} userData={user}
-                                                                 deleteUserParent={deleteUserParent}
-                                                                 editUserParent={editUserParent}/>)}</tbody>
+                    <tbody>
+                    {
+                        users.map(user => <UserDataTableItem key={user.id}
+                                                             userData={user}
+                                                             deleteUserParent={deleteUserParent}
+                                                             editUserParent={editUserParent}
+                            />
+                        )
+                    }
+                    </tbody>
                     <TableFooter dataLength={users.length} colSpan="8"/>
                 </Table>
             </div>
 
-            <Footer users={users}/>
+            <Footer users={users} errors={error}/>
         </>
     )
 }
