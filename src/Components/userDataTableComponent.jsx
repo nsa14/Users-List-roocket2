@@ -21,13 +21,26 @@ const ShowUserList = () => {
     useEffect(() => {
         if (!storeMethod){
             setLoading(true);
-            let response = AxiosGet()
-            console.log(response);
-            // if (response.isData) {
-            //     setUsers(response.data)
-            // }else{
-            //     setError(response.error);
-            // }
+
+
+
+
+            // let response = AxiosGet()
+            // console.log(response)
+
+            AxiosGet()
+                .then(response => {
+                    if (response.isData) {
+                        setUsers(response.data)
+                    }else{
+                        setError(response.error);
+                    }
+                })
+                .catch(err => setError(err))
+
+
+
+
             setLoading(false)
 
         }else{

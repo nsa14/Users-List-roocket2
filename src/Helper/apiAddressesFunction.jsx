@@ -5,21 +5,24 @@ export const ApiAddresses = () => {
 }
 
 // export let AxiosGet = async()=> {
-export let AxiosGet = ()=> {
+export let AxiosGet = async()=> {
+// export async function AxiosGet(){
     let responseAxios = {
         isData: false,
         loading: true,
         data: [],
         error: [],
     }
-    axios.get(ApiAddresses()).then((response) => {
+    await axios.get(ApiAddresses()).then((response) => {
         if (response.data.data.length > 0) {
             responseAxios.isData = true;
             responseAxios.data = response.data.data;
             responseAxios.loading = false;
         }
     }).catch(error => {
-        responseAxios.error = error;
+        // console.log(error.response.data)
+        responseAxios.error = error.response.data;
     })
+
     return responseAxios;
 }
