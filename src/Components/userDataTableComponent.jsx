@@ -3,32 +3,33 @@ import axios from "axios";
 import {Spinner, Table} from "react-bootstrap";
 import TableHead from './table/TableHead';
 import UserDataTableItem from './userDataTableItemComponent';
-import {ApiAddresses} from '../Helper/apiAddressesComponent';
+import {ApiAddresses, AxiosGet} from '../Helper/apiAddressesFunction';
 import TableFooter from './table/TableFooter';
 import Header from '../theme_section/Header';
 // import SearchUser from "./searchUserComponent";
 import Footer from "../theme_section/Footer";
 
-const DataTable = () => {
+const ShowUserList = () => {
 
     // const [users, setUsers] = useState('users' in localStorage ? JSON.parse(localStorage.users) : []);
     const [users, setUsers] = useState([]);
     const [error, setError] = useState([]);
     const [loading, setLoading] = useState(false);
     // //true: is server api   |   false: is localstorage
-    const [storeMethod, setStoreMetho] = useState(false);
+    const [storeMethod, setStoreMethod] = useState('storeMethod' in localStorage);
 
     useEffect(() => {
-        if (storeMethod){
+        if (!storeMethod){
             setLoading(true);
-            axios.get(ApiAddresses()).then((response) => {
-                // console.log(response.data.data.length)
-                if (response.data.data.length > 0)
-                    setUsers(response.data.data)
-                setLoading(false);
-            }).catch(error => {
-                setError(error);
-            });
+            let response = AxiosGet()
+            console.log(response);
+            // if (response.isData) {
+            //     setUsers(response.data)
+            // }else{
+            //     setError(response.error);
+            // }
+            setLoading(false)
+
         }else{
             setUsers('users' in localStorage ? JSON.parse(localStorage.users) : []);
         }
@@ -124,4 +125,4 @@ const DataTable = () => {
     )
 }
 
-export default DataTable;
+export default ShowUserList;
