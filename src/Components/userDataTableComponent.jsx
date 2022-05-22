@@ -12,8 +12,16 @@ import Footer from "../theme_section/Footer";
 
 const DataTable = () => {
 
-    const [users, setUsers] = useState('users' in localStorage ? JSON.parse(localStorage.users) : []);
+    // const [users, setUsers] = useState('users' in localStorage ? JSON.parse(localStorage.users) : []);
+    const [users, setUsers] = useState([]);
 
+    useEffect(() => {
+        axios.get(ApiAddresses()).then((response) => {
+            console.log(response.data.length)
+            if (response.data.length>0)
+                setUsers(response.data)
+        });
+    }, []);
     useEffect(() => {
         localStorage.users = JSON.stringify(users)
         localStorage.tempUsers = JSON.stringify(users);
