@@ -1,5 +1,4 @@
-import {toast, ToastContainer} from "react-toastify";
-import React from "react";
+import {toast} from "react-toastify";
 
 export const ToastAlert = (message, TYPE='success') => {
 
