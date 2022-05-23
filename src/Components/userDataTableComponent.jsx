@@ -22,20 +22,18 @@ const ShowUserList = () => {
         getDataFromServer();
     }, []);
 
-    useEffect(() => {
-        // localStorage.users = JSON.stringify(users)
-        // localStorage.tempUsers = JSON.stringify(users);
-        if (!storeMethod) {
-            // localStorage.users = JSON.stringify(users)
-            // error loop when localstorage
-            // setUsers('users' in localStorage ? JSON.parse(localStorage.users) : []);
-        } else {
-            //get data serverApi
-            // getDataFromServer();
-        }
-        return getDataFromServer()
-
-    }, [users, storeMethod]);
+    // useEffect(() => {
+    //     // localStorage.users = JSON.stringify(users)
+    //     // localStorage.tempUsers = JSON.stringify(users);
+    //     if (!storeMethod) {
+    //         // localStorage.users = JSON.stringify(users)
+    //         // error loop when localstorage
+    //         // setUsers('users' in localStorage ? JSON.parse(localStorage.users) : []);
+    //     } else {
+    //         //get data serverApi
+    //         // getDataFromServer();
+    //     }
+    // }, [users, storeMethod]);
 
     useEffect(() => {
         localStorage.users = JSON.stringify(usersLocal)
