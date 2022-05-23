@@ -1,5 +1,4 @@
 import {useEffect, useState} from "react";
-import axios from "axios";
 import {Spinner, Table} from "react-bootstrap";
 import TableHead from './table/TableHead';
 import UserDataTableItem from './userDataTableItemComponent';
@@ -11,12 +10,15 @@ import Footer from "../theme_section/Footer";
 
 const ShowUserList = () => {
     const [storeMethod, setStoreMethod] = useState('storeMethod' in localStorage ? JSON.parse(localStorage.storeMethod) : localStorage.setItem('storeMethod', false));
-    const [users, setUsers] = useState('users' in localStorage ? JSON.parse(localStorage.users) : []);
+    const [users, setUsers] = useState('users' in localStorage ? JSON.parse(localStorage.users) : localStorage.setItem('users', '[]'));
     // const [users, setUsers] = useState([]);
     const [error, setError] = useState([]);
-    const [loading, setLoading] = useState(false);
-    // //true: is server api   |   false: is localstorage
+    let [loading, setIsLoading] = useState(false);
 
+
+    /**
+     * call once useEffect
+     */
     useEffect(() => {
         getDataFromServer();
     }, []);
@@ -26,21 +28,23 @@ const ShowUserList = () => {
         // localStorage.tempUsers = JSON.stringify(users);
         if (!storeMethod) {
             // localStorage.users = JSON.stringify(users)
-            setUsers('users' in localStorage ? JSON.parse(localStorage.users) : []);
+            // error loop when localstorage
+            // setUsers('users' in localStorage ? JSON.parse(localStorage.users) : []);
         }else{
             //get data serverApi
             getDataFromServer();
         }
     }, [users]);
+
     useEffect(() => {
         // localStorage.users = JSON.stringify(users)
         // localStorage.tempUsers = JSON.stringify(users);
         if (!storeMethod) {
-            console.log('useEffect storeMethod is false')
+            // console.log('useEffect storeMethod is false')
             // localStorage.users = JSON.stringify(users)
             setUsers('users' in localStorage ? JSON.parse(localStorage.users) : []);
-        }else{
-            console.log('useEffect storeMethod is true server')
+        } else {
+            // console.log('useEffect storeMethod is true server')
             //get data serverApi
             getDataFromServer();
         }
@@ -50,9 +54,9 @@ const ShowUserList = () => {
      * storeMethod is true: get data from server
      * storeMethod is false get data from localstorage
      */
-    let getDataFromServer = () => {
+    function  getDataFromServer()  {
+        setIsLoading(true);
         if (storeMethod) {
-            setLoading(true);
             AxiosGet()
                 .then(response => {
                     if (response.isData) {
@@ -62,15 +66,15 @@ const ShowUserList = () => {
                     }
                 })
                 .catch(err => setError(err))
-
-            setLoading(false)
+                .finally(() => setIsLoading(false)); // complete loading success/fail
         } else {
-            const vvv = 'users' in localStorage ? JSON.parse(localStorage.users) : [];
-            console.log('vvv');
-            console.log(vvv);
+            // const vvv = 'users' in localStorage ? JSON.parse(localStorage.users) : [];
+            // console.log('vvv');
+            // console.log(vvv);
             // localStorage.users = JSON.stringify(users)
             // setUsers('users' in localStorage ? JSON.parse(localStorage.users) : []);
         }
+        setIsLoading(false);
     }
 
     /**
@@ -82,6 +86,11 @@ const ShowUserList = () => {
         if (storeMethod) {
             AxiosDelete(id)
                 .then(response => {
+                    if (response.isData) {
+                        setUsers(response.data)
+                    } else {
+                        setError(response.error);
+                    }
                 })
                 .catch(err => setError(err))
         } else {
@@ -103,7 +112,7 @@ const ShowUserList = () => {
                 .then(response => {
                 })
                 .catch(err => setError(err))
-        }else{
+        } else {
             // localStorage
             setUsers(users.map(user => (user.id === update.id) ? update : user));
         }
@@ -114,47 +123,23 @@ const ShowUserList = () => {
      * add item form(child component) to this state
      * @param newUser object of data add to state inside old data state
      */
-        // const addNewUserInParent = (newUser) => setUsers(prevUsers => [newUser, ...prevUsers]);
     const addNewUserInParent = (newUser) => {
-            if (storeMethod) {
-                //serverApi
-                // const data = {
-                //     name: newUser.name,
-                //     family: newUser.family,
-                //     password: newUser.password,
-                //     isAdmin: newUser.chk_admin,
-                //     isStatus: newUser.chk_status,
-                //     email: newUser.email,
-                //     created_at: newUser.created_at,
-                //     updated_at: newUser.updated_at,
-                // }
-                // console.log(newUser);
-                // setUsers(prevUsers => [newUser, ...prevUsers]);
-                AxiosPost(newUser)
-                    .then(response => {
-                        if (response.isData) {
-                            console.log('AxiosPost userDataComponent')
-                            console.log(response)
-                            setUsers(JSON.parse(response.data))
-                        } else {
-                            setError(response.error);
-                        }
-                    })
-                    .catch(err => setError(err))
-                // axios
-                //     .post(ApiAddresses(), data)
-                //     .then((response) => {
-                //         setUsers(prevState => prevState, response.data);
-                //     }).catch(error => {
-                //     setError(error);
-                // });
-            } else {
-                //localStorage
-                setUsers(prevUsers => [newUser, ...prevUsers]);
-            }
-
-
+        if (storeMethod) {
+            //serverApi
+            AxiosPost(newUser)
+                .then(response => {
+                    if (response.isData) {
+                        setUsers(prevState => [...prevState, response.data])
+                    } else {
+                        setError(response.error);
+                    }
+                })
+                .catch(err => setError(err))
+        } else {
+            //localStorage
+            setUsers(prevUsers => [newUser, ...prevUsers]);
         }
+    }
 
     /**
      * find name field in local storage and show
@@ -173,6 +158,10 @@ const ShowUserList = () => {
         }
     };
 
+    /**
+     * change store method : true is ServerApi  |  false is localStorage
+     * @param value is true or false
+     */
     const changeStoreMethod = (value) => {
         localStorage.setItem('storeMethod', value)
         setStoreMethod(value);
@@ -184,6 +173,8 @@ const ShowUserList = () => {
                     changeStoreMethod={changeStoreMethod} storeMethod={storeMethod}/>
 
             <div className="table-responsive">
+                {' loading is : ' + loading}
+                {' user is : ' + users.length}
                 {loading ? <Spinner className="text-center" animation="border"/> : ''}
                 <Table style={{direction: 'rtl', lineHeight: '60px'}} striped hover>
                     <TableHead titles={['نام', 'فامیل', 'رمز', 'ایمیل', 'کاربری', 'وضعیت', 'تاریخ ثبت', 'عملیات']}/>
