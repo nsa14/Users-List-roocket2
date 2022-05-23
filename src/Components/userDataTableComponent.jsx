@@ -11,10 +11,9 @@ import Footer from "../theme_section/Footer";
 const ShowUserList = () => {
     const [storeMethod, setStoreMethod] = useState('storeMethod' in localStorage ? JSON.parse(localStorage.storeMethod) : localStorage.setItem('storeMethod', false));
     const [users, setUsers] = useState('users' in localStorage ? JSON.parse(localStorage.users) : localStorage.setItem('users', '[]'));
-    // const [users, setUsers] = useState([]);
+    const [usersLocal, setUsersLocal] = useState('users' in localStorage ? JSON.parse(localStorage.users) : localStorage.setItem('users', '[]'));
     const [error, setError] = useState([]);
     let [loading, setIsLoading] = useState(false);
-
 
     /**
      * call once useEffect
@@ -30,31 +29,38 @@ const ShowUserList = () => {
             // localStorage.users = JSON.stringify(users)
             // error loop when localstorage
             // setUsers('users' in localStorage ? JSON.parse(localStorage.users) : []);
-        }else{
+        } else {
             //get data serverApi
             getDataFromServer();
         }
-    }, [users]);
+
+    }, [users, storeMethod]);
 
     useEffect(() => {
-        // localStorage.users = JSON.stringify(users)
-        // localStorage.tempUsers = JSON.stringify(users);
-        if (!storeMethod) {
-            // console.log('useEffect storeMethod is false')
-            // localStorage.users = JSON.stringify(users)
-            setUsers('users' in localStorage ? JSON.parse(localStorage.users) : []);
-        } else {
-            // console.log('useEffect storeMethod is true server')
-            //get data serverApi
-            getDataFromServer();
-        }
-    }, [storeMethod]);
+        // console.log('rrrrrr')
+        // console.log(usersLocal)
+        localStorage.users = JSON.stringify(usersLocal)
+    }, [usersLocal])
+
+    // useEffect(() => {
+    //     // localStorage.users = JSON.stringify(users)
+    //     // localStorage.tempUsers = JSON.stringify(users);
+    //     if (!storeMethod) {
+    //         // console.log('useEffect storeMethod is false')
+    //         // localStorage.users = JSON.stringify(users)
+    //         setUsers('users' in localStorage ? JSON.parse(localStorage.users) : []);
+    //     } else {
+    //         // console.log('useEffect storeMethod is true server')
+    //         //get data serverApi
+    //         getDataFromServer();
+    //     }
+    // }, [storeMethod]);
 
     /**
      * storeMethod is true: get data from server
      * storeMethod is false get data from localstorage
      */
-    function  getDataFromServer()  {
+    function getDataFromServer() {
         setIsLoading(true);
         if (storeMethod) {
             AxiosGet()
@@ -72,7 +78,8 @@ const ShowUserList = () => {
             // console.log('vvv');
             // console.log(vvv);
             // localStorage.users = JSON.stringify(users)
-            // setUsers('users' in localStorage ? JSON.parse(localStorage.users) : []);
+            setUsers('users' in localStorage ? JSON.parse(localStorage.users) : []);
+            setUsersLocal('users' in localStorage ? JSON.parse(localStorage.users) : []);
         }
         setIsLoading(false);
     }
@@ -96,6 +103,7 @@ const ShowUserList = () => {
         } else {
             //localStorage
             setUsers(users.filter((user) => user.id !== parseInt(id)));
+            setUsersLocal(users.filter((user) => user.id !== parseInt(id)));
         }
     }
 
@@ -115,6 +123,7 @@ const ShowUserList = () => {
         } else {
             // localStorage
             setUsers(users.map(user => (user.id === update.id) ? update : user));
+            setUsersLocal(users.map(user => (user.id === update.id) ? update : user));
         }
 
     }
@@ -138,6 +147,7 @@ const ShowUserList = () => {
         } else {
             //localStorage
             setUsers(prevUsers => [newUser, ...prevUsers]);
+            setUsersLocal(prevUsers => [newUser, ...prevUsers]);
         }
     }
 
@@ -173,19 +183,23 @@ const ShowUserList = () => {
                     changeStoreMethod={changeStoreMethod} storeMethod={storeMethod}/>
 
             <div className="table-responsive">
-                {' loading is : ' + loading}
-                {' user is : ' + users.length}
                 {loading ? <Spinner className="text-center" animation="border"/> : ''}
                 <Table style={{direction: 'rtl', lineHeight: '60px'}} striped hover>
                     <TableHead titles={['نام', 'فامیل', 'رمز', 'ایمیل', 'کاربری', 'وضعیت', 'تاریخ ثبت', 'عملیات']}/>
                     <tbody>
                     {
-                        users.map(user => <UserDataTableItem key={user.id}
-                                                             userData={user}
-                                                             deleteUserParent={deleteUserParent}
-                                                             editUserParent={editUserParent}
-                            />
-                        )
+                        storeMethod ?
+                            users.map(user => <UserDataTableItem key={user.id}
+                                                                 userData={user}
+                                                                 deleteUserParent={deleteUserParent}
+                                                                 editUserParent={editUserParent}
+                            />)
+                            :
+                            usersLocal.map(user => <UserDataTableItem key={user.id}
+                                                                      userData={user}
+                                                                      deleteUserParent={deleteUserParent}
+                                                                      editUserParent={editUserParent}
+                            />)
                     }
                     </tbody>
                     <TableFooter dataLength={users.length} colSpan="8"/>
