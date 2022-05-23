@@ -4,7 +4,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 
 ## Screenshot of UI project UsersManage
-<img src="./public/Screenshot%202022-05-12%20at%2023.41.08.png">
+<img src="./public/Screenshot 2022-05-23-at-22.52.17.png">
 
 ## لیست عملیات 
 
@@ -12,11 +12,11 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 به روش functional component.\
 ایجاد کاربر جدید بصورت modalBox.\
 قابلیت حذف کاربر.\
-ویرایش کاربر انتخابی.\
-آخرین فورک توسط @rezaporsalar انجام شده است.
-
+ویرایش کاربر انتخابی
+*********
 آخرین تغییرات:\
-اضافه کردن باکس جستجو در فیلد نام\
+اضافه کردن آپشن برای ذخیره داده در لوکال یا سرور
+اضافه کردن باکس جستجو در فیلد نام\ - ناقص می باشد
 
 
 ## Available Scripts

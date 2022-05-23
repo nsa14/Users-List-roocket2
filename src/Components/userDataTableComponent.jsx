@@ -9,11 +9,11 @@ import Header from '../theme_section/Header';
 import Footer from "../theme_section/Footer";
 
 const ShowUserList = () => {
-    const [storeMethod, setStoreMethod] = useState('storeMethod' in localStorage ? JSON.parse(localStorage.storeMethod) : localStorage.setItem('storeMethod', false));
+    const [storeMethod, setStoreMethod] = useState('storeMethod' in localStorage ? JSON.parse(localStorage.storeMethod) : localStorage.setItem('storeMethod', true));
     const [users, setUsers] = useState('users' in localStorage ? JSON.parse(localStorage.users) : localStorage.setItem('users', '[]'));
     const [usersLocal, setUsersLocal] = useState('users' in localStorage ? JSON.parse(localStorage.users) : localStorage.setItem('users', '[]'));
     const [error, setError] = useState([]);
-    let [loading, setIsLoading] = useState(false);
+    const [loading, setIsLoading] = useState(false);
 
     /**
      * call once useEffect
@@ -31,30 +31,15 @@ const ShowUserList = () => {
             // setUsers('users' in localStorage ? JSON.parse(localStorage.users) : []);
         } else {
             //get data serverApi
-            getDataFromServer();
+            // getDataFromServer();
         }
+        return getDataFromServer()
 
     }, [users, storeMethod]);
 
     useEffect(() => {
-        // console.log('rrrrrr')
-        // console.log(usersLocal)
         localStorage.users = JSON.stringify(usersLocal)
     }, [usersLocal])
-
-    // useEffect(() => {
-    //     // localStorage.users = JSON.stringify(users)
-    //     // localStorage.tempUsers = JSON.stringify(users);
-    //     if (!storeMethod) {
-    //         // console.log('useEffect storeMethod is false')
-    //         // localStorage.users = JSON.stringify(users)
-    //         setUsers('users' in localStorage ? JSON.parse(localStorage.users) : []);
-    //     } else {
-    //         // console.log('useEffect storeMethod is true server')
-    //         //get data serverApi
-    //         getDataFromServer();
-    //     }
-    // }, [storeMethod]);
 
     /**
      * storeMethod is true: get data from server
@@ -74,10 +59,6 @@ const ShowUserList = () => {
                 .catch(err => setError(err))
                 .finally(() => setIsLoading(false)); // complete loading success/fail
         } else {
-            // const vvv = 'users' in localStorage ? JSON.parse(localStorage.users) : [];
-            // console.log('vvv');
-            // console.log(vvv);
-            // localStorage.users = JSON.stringify(users)
             setUsers('users' in localStorage ? JSON.parse(localStorage.users) : []);
             setUsersLocal('users' in localStorage ? JSON.parse(localStorage.users) : []);
         }
