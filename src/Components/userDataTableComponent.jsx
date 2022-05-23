@@ -3,7 +3,7 @@ import axios from "axios";
 import {Spinner, Table} from "react-bootstrap";
 import TableHead from './table/TableHead';
 import UserDataTableItem from './userDataTableItemComponent';
-import {ApiAddresses, AxiosGet} from '../Helper/apiAddressesFunction';
+import {AxiosGet, AxiosPost, AxiosDelete} from '../Helper/apiAddressesFunction';
 import TableFooter from './table/TableFooter';
 import Header from '../theme_section/Header';
 // import SearchUser from "./searchUserComponent";
@@ -19,15 +19,22 @@ const ShowUserList = () => {
     const [storeMethod, setStoreMethod] = useState('storeMethod' in localStorage);
 
     useEffect(() => {
+        getDataFromServer();
+    }, []);
+
+    useEffect(() => {
+        // localStorage.users = JSON.stringify(users)
+        // localStorage.tempUsers = JSON.stringify(users);
+        getDataFromServer()
+    }, [users]);
+
+    /**
+     * storeMethod is true: get data from server
+     * storeMethod is false get data from localstorage
+     */
+    let getDataFromServer=()=>{
         if (!storeMethod){
             setLoading(true);
-
-
-
-
-            // let response = AxiosGet()
-            // console.log(response)
-
             AxiosGet()
                 .then(response => {
                     if (response.isData) {
@@ -38,28 +45,24 @@ const ShowUserList = () => {
                 })
                 .catch(err => setError(err))
 
-
-
-
             setLoading(false)
-
         }else{
             setUsers('users' in localStorage ? JSON.parse(localStorage.users) : []);
         }
-
-    }, []);
-
-    useEffect(() => {
-        localStorage.users = JSON.stringify(users)
-        localStorage.tempUsers = JSON.stringify(users);
-    }, [users]);
+    }
 
     /**
      * delete User in state . use it parent .
      * @param id passed on child component and use in this parent method
      * if state count === 0 re-create localstorage empty
      */
-    const deleteUserParent = (id) => setUsers(users.filter((user) => user.id !== parseInt(id)));
+    const deleteUserParent = (id) => {
+        // setUsers(users.filter((user) => user.id !== parseInt(id)));
+        AxiosDelete(id)
+            .then(response => {
+            })
+            .catch(err => setError(err))
+    }
 
     /**
      * edit User data with method.
@@ -73,25 +76,40 @@ const ShowUserList = () => {
      */
         // const addNewUserInParent = (newUser) => setUsers(prevUsers => [newUser, ...prevUsers]);
     const addNewUserInParent = (newUser) => {
-            const data = {
-                name: newUser.name,
-                family: newUser.family,
-                password: newUser.password,
-                isAdmin: newUser.chk_admin,
-                isStatus: newUser.chk_status,
-                email: newUser.email,
-                created_at: newUser.created_at,
-                updated_at: newUser.updated_at,
-            }
+            // const data = {
+            //     name: newUser.name,
+            //     family: newUser.family,
+            //     password: newUser.password,
+            //     isAdmin: newUser.chk_admin,
+            //     isStatus: newUser.chk_status,
+            //     email: newUser.email,
+            //     created_at: newUser.created_at,
+            //     updated_at: newUser.updated_at,
+            // }
             // console.log(newUser);
             // setUsers(prevUsers => [newUser, ...prevUsers]);
-            axios
-                .post(ApiAddresses(), data)
-                .then((response) => {
-                    setUsers(prevState => prevState, response.data);
-                }).catch(error => {
-                setError(error);
-            });
+            AxiosPost({
+                ...newUser,
+                isAdmin: newUser.chk_admin,
+                isStatus: newUser.chk_status,
+            })
+                .then(response => {
+                    if (response.isData) {
+                        console.log('AxiosPost userDataComponent')
+                        console.log(response)
+                        setUsers(JSON.parse(response.data))
+                    }else{
+                        setError(response.error);
+                    }
+                })
+                .catch(err => setError(err))
+            // axios
+            //     .post(ApiAddresses(), data)
+            //     .then((response) => {
+            //         setUsers(prevState => prevState, response.data);
+            //     }).catch(error => {
+            //     setError(error);
+            // });
         }
 
     /**

@@ -26,3 +26,69 @@ export let AxiosGet = async()=> {
 
     return responseAxios;
 }
+
+export let AxiosPost = async(data)=> {
+// export async function AxiosGet(){
+    let responseAxios = {
+        isData: false,
+        loading: true,
+        data: [],
+        error: [],
+    }
+
+    await axios.post(ApiAddresses(), data).then((response) => {
+        if (response.status === 200) {
+            responseAxios.isData = true;
+            responseAxios.data = response.data;
+            responseAxios.loading = false;
+        }
+    }).catch(error => {
+        responseAxios.error = error.response.data;
+    })
+
+    return responseAxios;
+}
+
+export let AxiosDelete = async(id)=> {
+
+    let responseAxios = {
+        isData: false,
+        loading: true,
+        data: [],
+        error: [],
+    }
+
+    await axios.delete(ApiAddresses()+'/'+id).then((response) => {
+        if (response.status === 200) {
+            responseAxios.isData = true;
+            responseAxios.data = GetPromiseAxios();
+            responseAxios.loading = false;
+        }
+    }).catch(error => {
+        responseAxios.error = error.response.data;
+    })
+    console.log('AxiosDelete ')
+    console.log(responseAxios)
+    return responseAxios;
+}
+
+export const GetPromiseAxios =()=>{
+    let responseAxios = {
+        isData: false,
+        loading: true,
+        data: [],
+        error: [],
+    }
+    AxiosGet()
+        .then(response => {
+            if (response.isData) {
+                responseAxios.data = response.data;
+                responseAxios.isData = true;
+            }else{
+                responseAxios.error = response.error;
+            }
+        })
+        .catch(err => responseAxios.error = err)
+
+    return responseAxios;
+}
