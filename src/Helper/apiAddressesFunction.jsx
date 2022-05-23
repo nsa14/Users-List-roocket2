@@ -49,6 +49,27 @@ export let AxiosPost = async(data)=> {
     return responseAxios;
 }
 
+export let AxiosUpdate = async(id, data)=> {
+    let responseAxios = {
+        isData: false,
+        loading: true,
+        data: [],
+        error: [],
+    }
+
+    await axios.put(ApiAddresses()+'/'+id, data).then((response) => {
+        if (response.status === 200) {
+            responseAxios.isData = true;
+            responseAxios.data = response.data;
+            responseAxios.loading = false;
+        }
+    }).catch(error => {
+        responseAxios.error = error.response.data;
+    })
+
+    return responseAxios;
+}
+
 export let AxiosDelete = async(id)=> {
 
     let responseAxios = {

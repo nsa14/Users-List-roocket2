@@ -72,23 +72,23 @@ export default ({userData, propsUpdateParentClick}) => {
                         </Form.Group>
                         <Form.Group
                             className="mb-3"
-                            controlId="exampleForm.chk_admin">
+                            controlId="exampleForm.isAdmin">
                             <Form.Check
-                                name="chk_admin"
-                                checked={stateForm.chk_admin}
+                                name="isAdmin"
+                                checked={stateForm.isAdmin}
                                 onChange={formEventHandler.bind(this)}
                                 type="switch"
-                                id="chk_admin"
+                                id="isAdmin"
                                 label="وضعیت ادمین"
                             />
                         </Form.Group>
                         <Form.Group>
                             <Form.Check
-                                name="chk_status"
-                                checked={stateForm.chk_status}
+                                name="isStatus"
+                                checked={stateForm.isStatus}
                                 onChange={formEventHandler.bind(this)}
                                 type="switch"
-                                id="chk_status"
+                                id="isStatus"
                                 label="وضعیت "
                             />
                         </Form.Group>

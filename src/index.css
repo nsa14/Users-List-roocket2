@@ -5,3 +5,8 @@ html, body{
     background: -webkit-linear-gradient(to left, #8f94fb, #4e54c8);
     font-family: Vazir, 'sans-serif';
 }
+.form-switch .form-check-input{
+
+    width: 4.55rem;
+    height: 2.55rem;
+}
