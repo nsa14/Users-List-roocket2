@@ -9,21 +9,20 @@ const StoreMethod = ({isStoreMethod, changeStoreMethod}) => {
 
     return (
         <>
-            <div>
-                <span className="text-primary m-2">فعال: سرور</span>
-                <span className="text-secondary m-2">غیرفعال: لوکال استوریج</span>
-                <Form.Check
-                    style={{fontWeight: 'bolder'}}
-                    onChange={isStoreChanged.bind(this)}
-                    checked={JSON.parse(isStoreMethod) === true}
-                    name="isStoreMethod"
-                    type="switch"
-                    id="isStoreMethod"
-                    label=" نوع ذخیره سازی داده"
-                />
+            <div className="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                <button type="button" className="btn btn-outline-success" disabled>غیرفعال: لوکال </button>
+                <button type="button" className="btn btn-outline-success">
+                    <Form.Check
+                        onChange={isStoreChanged.bind(this)}
+                        checked={JSON.parse(isStoreMethod) === true}
+                        name="isStoreMethod"
+                        type="switch"
+                        id="isStoreMethod"
+
+                    />
+                </button>
+                <button type="button" className="btn btn-outline-success disabled">فعال: سرور</button>
             </div>
-
-
         </>
     );
 };

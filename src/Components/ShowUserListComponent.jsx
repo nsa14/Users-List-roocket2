@@ -191,10 +191,6 @@ const ShowUserList = () => {
                 </Table>
             </div>
 
-            {'-- storeMethod : ' + storeMethod}
-            {'-- userApi : ' + users.length}
-            {'-- usersLocal : ' + usersLocal.length}
-
             <Footer users={users} usersLocal={usersLocal} storeMethod={storeMethod} errors={error}/>
         </>
     )

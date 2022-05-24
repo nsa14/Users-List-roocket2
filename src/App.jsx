@@ -1,8 +1,10 @@
-import ShowUserList from './Components/userDataTableComponent';
+import ShowUserList from './Components/ShowUserListComponent';
 
-const UsersApp = () => {
+import React from "react";
+
+const App = () => {
     return(
-        <div className="p-4">
+        <div>
             <div className="bg-white container border-radius py-5 my-5" style={{borderRadius: 10}}>
                 <ShowUserList/>
             </div>
@@ -10,4 +12,4 @@ const UsersApp = () => {
     )
 }
 
-export default UsersApp;
+export default App;

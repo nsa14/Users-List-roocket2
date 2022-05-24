@@ -37,7 +37,7 @@ const ShowAddUserForm = ({setStateOfParent}) => {
 
     return (
         <>
-            <Button variant="primary" onClick={() => setIsOpen(true)}>
+            <Button className="btn btn-success" onClick={() => setIsOpen(true)}>
                 ایجاد کاربر جدید
             </Button>
 
@@ -62,7 +62,7 @@ const ShowAddUserForm = ({setStateOfParent}) => {
                                     className={"form-control"}
                                 />
                                 {errors.name?.type === "required" && (
-                                    <small className={"form-element"}>الزامی می باشد</small>
+                                    <small className={"form-element text-danger"}>الزامی می باشد</small>
                                 )}
                             </Form.Group></div>
                             <div className="col-md-12"><Form.Group className="mb-3" controlId="exampleForm.family">
@@ -73,7 +73,7 @@ const ShowAddUserForm = ({setStateOfParent}) => {
                                     className={"form-control"}
                                 />
                                 {errors.family?.type === "required" && (
-                                    <small className={"form-element"}>الزامی می باشد</small>
+                                    <small className={"form-element text-danger"}>الزامی می باشد</small>
                                 )}
                             </Form.Group></div>
                         </div>
@@ -89,10 +89,10 @@ const ShowAddUserForm = ({setStateOfParent}) => {
                                     className={"form-control"}
                                 />
                                 {errors.email?.type === "required" && (
-                                    <small className={"form-element"}>الزامی می باشد</small>
+                                    <small className={"form-element text-danger"}>الزامی می باشد</small>
                                 )}
                                 {errors.email?.type === "pattern" && (
-                                    <small className={"form-element"}>فرمت صحیح نمی باشد</small>
+                                    <small className={"form-element text-danger"}>فرمت صحیح نمی باشد</small>
                                 )}
                             </Form.Group></div>
                             <div><Form.Group
@@ -103,10 +103,11 @@ const ShowAddUserForm = ({setStateOfParent}) => {
                                 <input
                                     {...register("password", {required: true})}
                                     placeholder="رمز عبور را وارد کنید"
+                                    autoComplete="off"
                                     className={"form-control"}
                                 />
                                 {errors.password?.type === "required" && (
-                                    <small className={"form-element"}>الزامی می باشد</small>
+                                    <small className={"form-element text-danger"}>الزامی می باشد</small>
                                 )}
                             </Form.Group></div>
                         </div>

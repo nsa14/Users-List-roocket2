@@ -7,7 +7,7 @@ const Header = ({users, setStateOfParent, searchClick, storeMethod, changeStoreM
     // const searchUserInParent = (findUser) => {searchClick(findUser)};
 
     return (
-        <div className="d-flex justify-content-between align-items-center my-3">
+        <div className="d-flex justify-content-between  my-3">
             <StoreMethod isStoreMethod={storeMethod} changeStoreMethod={changeStoreMethod}/>
             <NewUserForm data={users} setStateOfParent={setStateOfParent}/>
             {/*<SearchUser searchClick={searchUserInParent}/>*/}
