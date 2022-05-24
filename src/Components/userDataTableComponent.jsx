@@ -11,7 +11,7 @@ import Footer from "../theme_section/Footer";
 const ShowUserList = () => {
     const [storeMethod, setStoreMethod] = useState('storeMethod' in localStorage ? JSON.parse(localStorage.storeMethod) : localStorage.setItem('storeMethod', true));
     const [users, setUsers] = useState('users' in localStorage ? JSON.parse(localStorage.users) : localStorage.setItem('users', '[]'));
-    const [usersLocal, setUsersLocal] = useState('users' in localStorage ? JSON.parse(localStorage.users) : localStorage.setItem('users', '[]'));
+    const [usersLocal, setUsersLocal] = useState('usersLocal' in localStorage ? JSON.parse(localStorage.usersLocal) : localStorage.setItem('usersLocal', '[]'));
     const [error, setError] = useState([]);
     const [loading, setIsLoading] = useState(false);
 
@@ -19,24 +19,19 @@ const ShowUserList = () => {
      * call once useEffect
      */
     useEffect(() => {
-        getDataFromServer();
+        getDataFromServer()
+        console.log('useEffect 1')
     }, []);
 
-    // useEffect(() => {
-    //     // localStorage.users = JSON.stringify(users)
-    //     // localStorage.tempUsers = JSON.stringify(users);
-    //     if (!storeMethod) {
-    //         // localStorage.users = JSON.stringify(users)
-    //         // error loop when localstorage
-    //         // setUsers('users' in localStorage ? JSON.parse(localStorage.users) : []);
-    //     } else {
-    //         //get data serverApi
-    //         // getDataFromServer();
-    //     }
-    // }, [users, storeMethod]);
+    useEffect(() => {
+        getDataFromServer()
+        console.log('useEffect 2')
+    },[storeMethod]);
+
 
     useEffect(() => {
-        localStorage.users = JSON.stringify(usersLocal)
+        localStorage.usersLocal = JSON.stringify(usersLocal)
+        console.log('useEffect 3')
     }, [usersLocal])
 
     /**
@@ -44,6 +39,7 @@ const ShowUserList = () => {
      * storeMethod is false get data from localstorage
      */
     function getDataFromServer() {
+
         setIsLoading(true);
         if (storeMethod) {
             AxiosGet()
@@ -56,9 +52,20 @@ const ShowUserList = () => {
                 })
                 .catch(err => setError(err))
                 .finally(() => setIsLoading(false)); // complete loading success/fail
+
         } else {
-            setUsers('users' in localStorage ? JSON.parse(localStorage.users) : []);
-            setUsersLocal('users' in localStorage ? JSON.parse(localStorage.users) : []);
+            AxiosGet()
+                .then(response => {
+                    if (response.isData) {
+                        setUsers(response.data)
+                    } else {
+                        setError(response.error);
+                    }
+                })
+                .catch(err => setError(err))
+                .finally(() => setIsLoading(false)); // complete loading success/fail
+            // setUsers('users' in localStorage ? JSON.parse(localStorage.users) : []);
+            setUsersLocal('usersLocal' in localStorage ? JSON.parse(localStorage.usersLocal) : []);
         }
         setIsLoading(false);
     }
@@ -74,6 +81,7 @@ const ShowUserList = () => {
                 .then(response => {
                     if (response.isData) {
                         setUsers(response.data)
+                        setUsers(users.filter((user) => user.id !== parseInt(id)));
                     } else {
                         setError(response.error);
                     }
@@ -82,7 +90,7 @@ const ShowUserList = () => {
         } else {
             //localStorage
             setUsers(users.filter((user) => user.id !== parseInt(id)));
-            setUsersLocal(users.filter((user) => user.id !== parseInt(id)));
+            setUsersLocal(usersLocal.filter((user) => user.id !== parseInt(id)));
         }
     }
 
@@ -92,17 +100,15 @@ const ShowUserList = () => {
      */
     const editUserParent = (update) => {
 
-        console.log('update')
-        console.log(update)
         if (storeMethod) {
             AxiosUpdate(update.id, update)
                 .then(response => {
+                    setUsers(users.map(user => (user.id === update.id) ? update : user));
                 })
                 .catch(err => setError(err))
         } else {
-            // localStorage
             setUsers(users.map(user => (user.id === update.id) ? update : user));
-            setUsersLocal(users.map(user => (user.id === update.id) ? update : user));
+            setUsersLocal(usersLocal.map(user => (user.id === update.id) ? update : user));
         }
 
     }
@@ -185,7 +191,11 @@ const ShowUserList = () => {
                 </Table>
             </div>
 
-            <Footer users={users} errors={error}/>
+            {'-- storeMethod : ' + storeMethod}
+            {'-- userApi : ' + users.length}
+            {'-- usersLocal : ' + usersLocal.length}
+
+            <Footer users={users} usersLocal={usersLocal} storeMethod={storeMethod} errors={error}/>
         </>
     )
 }
