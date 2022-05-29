@@ -7,6 +7,7 @@ import TableFooter from './table/TableFooter';
 import Header from '../theme_section/Header';
 // import SearchUser from "./searchUserComponent";
 import Footer from "../theme_section/Footer";
+import UserListContext from '../Context/UserListContext';
 
 const ShowUserList = () => {
     const [storeMethod, setStoreMethod] = useState('storeMethod' in localStorage ? JSON.parse(localStorage.storeMethod) : localStorage.setItem('storeMethod', true));
@@ -26,7 +27,7 @@ const ShowUserList = () => {
     useEffect(() => {
         getDataFromServer()
         console.log('useEffect 2')
-    },[storeMethod]);
+    }, [storeMethod]);
 
 
     useEffect(() => {
@@ -164,34 +165,49 @@ const ShowUserList = () => {
 
     return (
         <>
-            <Header data={users} setStateOfParent={addNewUserInParent} searchClick={searchUserInParentMain}
-                    changeStoreMethod={changeStoreMethod} storeMethod={storeMethod}/>
+            <UserListContext.Provider value={{
+                data: users,
+                setStateOfParent: addNewUserInParent,
+                searchClick: searchUserInParentMain,
+                changeStoreMethod: changeStoreMethod,
+                storeMethod: storeMethod,
+                users: users,
+                usersLocal: usersLocal,
+                errors: error,
+                deleteUserParent:deleteUserParent,
+                editUserParent:editUserParent,
 
-            <div className="table-responsive">
-                {loading ? <Spinner className="text-center" animation="border"/> : ''}
-                <Table style={{direction: 'rtl', lineHeight: '60px'}} striped hover>
-                    <TableHead titles={['نام', 'فامیل', 'رمز', 'ایمیل', 'کاربری', 'وضعیت', 'تاریخ ثبت', 'عملیات']}/>
-                    <tbody>
-                    {
-                        storeMethod ?
-                            users.map(user => <UserDataTableItem key={user.id}
-                                                                 userData={user}
-                                                                 deleteUserParent={deleteUserParent}
-                                                                 editUserParent={editUserParent}
-                            />)
-                            :
-                            usersLocal.map(user => <UserDataTableItem key={user.id}
-                                                                      userData={user}
-                                                                      deleteUserParent={deleteUserParent}
-                                                                      editUserParent={editUserParent}
-                            />)
-                    }
-                    </tbody>
-                    <TableFooter dataLength={users.length} colSpan="8"/>
-                </Table>
-            </div>
+            }}>
+                <Header data={users} setStateOfParent={addNewUserInParent} searchClick={searchUserInParentMain}
+                        changeStoreMethod={changeStoreMethod} storeMethod={storeMethod}/>
 
-            <Footer users={users} usersLocal={usersLocal} storeMethod={storeMethod} errors={error}/>
+                <div className="table-responsive">
+                    {loading ? <Spinner className="text-center" animation="border"/> : ''}
+                    <Table style={{direction: 'rtl', lineHeight: '60px'}} striped hover>
+                        <TableHead titles={['نام', 'فامیل', 'رمز', 'ایمیل', 'کاربری', 'وضعیت', 'تاریخ ثبت', 'عملیات']}/>
+                        <tbody>
+                        {
+                            storeMethod ?
+                                users.map(user => <UserDataTableItem key={user.id}
+                                                                     userData={user}
+                                                                     deleteUserParent={deleteUserParent}
+                                                                     editUserParent={editUserParent}
+                                />)
+                                :
+                                usersLocal.map(user => <UserDataTableItem key={user.id}
+                                                                          userData={user}
+                                                                          deleteUserParent={deleteUserParent}
+                                                                          editUserParent={editUserParent}
+                                />)
+                        }
+                        </tbody>
+                        <TableFooter dataLength={users.length} colSpan="8"/>
+                    </Table>
+                </div>
+
+                <Footer users={users} usersLocal={usersLocal} storeMethod={storeMethod} errors={error}/>
+            </UserListContext.Provider>
+
         </>
     )
 }
